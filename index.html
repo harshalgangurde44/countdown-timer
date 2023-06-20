@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Countdown Timer</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <h2>Countdown Timer</h2>
+      <input
+        id="timeCount"
+        type="text"
+        placeholder="Enter countdown time"
+        onkeydown="startTimer(event)"
+      />
+      <div id="current-time">0</div>
+    </div>
+
+    <script>
+      let countdownTimeout;
+
+      function startTimer(event) {
+        if (event.key === "Enter") {
+          const timeCountInput = document.getElementById("timeCount");
+          const countdownTime = Math.floor(parseFloat(timeCountInput.value));
+
+          if (!isNaN(countdownTime)) {
+            clearTimeout(countdownTimeout);
+            updateTime(countdownTime);
+
+            countdownTimeout = setTimeout(() => {
+              countdown(countdownTime);
+            }, 1000);
+          } else {
+            updateTime(0);
+          }
+
+          timeCountInput.value = "";
+        }
+      }
+
+      function countdown(time) {
+        updateTime(time);
+        if (time > 0) {
+          countdownTimeout = setTimeout(() => {
+            countdown(time - 1);
+          }, 1000);
+        }
+      }
+
+      function updateTime(time) {
+        const currentTimeDiv = document.getElementById("current-time");
+        currentTimeDiv.innerText = time;
+      }
+    </script>
+  </body>
+</html>
